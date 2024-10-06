@@ -31,6 +31,11 @@ mongoose.connect('mongodb://localhost:27017/realtime_dashboard', {
 }).then(() => console.log('Connected to MongoDB'))
     .catch((error) => console.log(error));
 
+// Root route (fixes 404 error)
+app.get('/', (req, res) => {
+    res.send('Welcome to the Real-Time Dashboard API!');
+});
+
 // Socket.io connection
 io.on('connection', (socket) => {
     console.log('New client connected');
