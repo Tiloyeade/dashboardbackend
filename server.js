@@ -4,6 +4,7 @@ const cors = require('cors');
 const http = require('http');
 const socketIo = require('socket.io');
 const Activity = require('./models/Activity');
+const helmet = require('helmet'); // Import helmet for security headers
 
 const app = express();
 const server = http.createServer(app);
@@ -12,6 +13,16 @@ const io = socketIo(server, { cors: { origin: '*' } });
 // Middleware
 app.use(express.json());
 app.use(cors());
+app.use(helmet()); // Use helmet for setting security headers
+
+// Set up Content Security Policy
+app.use(helmet.contentSecurityPolicy({
+    directives: {
+        defaultSrc: ["'self'"], // Allow resources only from the same origin
+        scriptSrc: ["'self'", "https://static.cloudflareinsights.com"], // Allow scripts from your origin and Cloudflare
+        // You can add more directives based on your app's needs
+    },
+}));
 
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost:27017/realtime_dashboard', {
