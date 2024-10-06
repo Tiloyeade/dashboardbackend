@@ -5,6 +5,7 @@ const http = require('http');
 const socketIo = require('socket.io');
 const Activity = require('./models/Activity');
 const helmet = require('helmet'); // Import helmet for security headers
+const simulateActivities = require('./simulateActivities');
 
 const app = express();
 const server = http.createServer(app);
@@ -61,4 +62,5 @@ app.post('/api/activity', async (req, res) => {
 // Start the server
 server.listen(4000, () => {
     console.log('Server is running on port 4000');
+    simulateActivities();
 });
