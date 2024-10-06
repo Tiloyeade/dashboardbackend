@@ -4,8 +4,8 @@ const cors = require('cors');
 const http = require('http');
 const socketIo = require('socket.io');
 const Activity = require('./models/Activity');
-const helmet = require('helmet'); // Import helmet for security headers
-
+const helmet = require('helmet');
+const simulateActivities = require('./simulateActivities'); // Import simulateActivities.js
 
 const app = express();
 const server = http.createServer(app);
@@ -17,50 +17,56 @@ app.use(cors());
 app.use(helmet()); // Use helmet for setting security headers
 
 // Set up Content Security Policy
-app.use(helmet.contentSecurityPolicy({
+app.use(
+  helmet.contentSecurityPolicy({
     directives: {
-        defaultSrc: ["'self'"], // Allow resources only from the same origin
-        scriptSrc: ["'self'", "https://static.cloudflareinsights.com"], // Allow scripts from your origin and Cloudflare
-        // You can add more directives based on your app's needs
+      defaultSrc: ["'self'"], // Allow resources only from the same origin
+      scriptSrc: ["'self'", 'https://static.cloudflareinsights.com'], // Allow scripts from your origin and Cloudflare
+      // You can add more directives based on your app's needs
     },
-}));
+  })
+);
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/realtime_dashboard', {
+mongoose
+  .connect('mongodb://localhost:27017/realtime_dashboard', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-}).then(() => console.log('Connected to MongoDB'))
-    .catch((error) => console.log(error));
+  })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((error) => console.log(error));
 
 // Root route (fixes 404 error)
 app.get('/', (req, res) => {
-    res.send('Welcome to the Real-Time Dashboard API!');
+  res.send('Welcome to the Real-Time Dashboard API!');
 });
 
 // Socket.io connection
 io.on('connection', (socket) => {
-    console.log('New client connected');
+  console.log('New client connected');
 
-    socket.on('disconnect', () => {
-        console.log('Client disconnected');
-    });
+  socket.on('disconnect', () => {
+    console.log('Client disconnected');
+  });
 });
 
 // Activity tracking endpoint
 app.post('/api/activity', async (req, res) => {
-    const { userId, activityType, page } = req.body; // Include page
+  const { userId, activityType, page } = req.body;
 
-    const activity = new Activity({ userId, activityType, page }); // Save page
-    await activity.save();
+  const activity = new Activity({ userId, activityType, page });
+  await activity.save();
 
-    // Emit the activity to all connected clients
-    io.emit('userActivity', activity);
+  // Emit the activity to all connected clients
+  io.emit('userActivity', activity);
 
-    res.status(201).json(activity);
+  res.status(201).json(activity);
 });
 
 // Start the server
 server.listen(4000, () => {
-    console.log('Server is running on port 4000');
-    
+  console.log('Server is running on port 4000');
+
+  // Start simulating activities when the server starts
+  simulateActivities(); // This will start the activity simulation
 });
