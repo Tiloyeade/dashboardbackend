@@ -37,7 +37,7 @@ mongoose
   .catch((error) => console.log(error));
 
 // Root route (fixes 404 error)
-app.get('/', (req, res) => {
+app.get('https://dashboardbackend-rkqp.onrender.com', (req, res) => {
   res.send('Welcome to the Real-Time Dashboard API!');
 });
 
