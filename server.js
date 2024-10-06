@@ -29,7 +29,7 @@ app.use(
 
 // Connect to MongoDB
 mongoose
-  .connect('mongodb+srv://<adegoroyeadetiloye>:<abey11111>@cluster2.sjib7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster2 ', {
+  .connect('mongodb+srv://<tiloye>:<abey11111>@cluster2.sjib7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster2 ', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
