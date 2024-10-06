@@ -29,7 +29,7 @@ app.use(
 
 // Connect to MongoDB
 mongoose
-  .connect('mongodb://localhost:27017/realtime_dashboard', {
+  .connect('mongodb+srv://<adegoroyeadetiloye>:<wnl4FbCMRYy4jw29>@mycluster1.padzc.mongodb.net/?retryWrites=true&w=majority&appName=mycluster1', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
