@@ -25,7 +25,7 @@ app.use(helmet.contentSecurityPolicy({
 }));
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/realtime_dashboard').then(() => console.log('Connected to MongoDB'))
+mongoose.connect('mongodb+srv://<tiloye>:<abey11111>@cluster2.sjib7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster2').then(() => console.log('Connected to MongoDB'))
     .catch((error) => console.log(error));
 
 // Root route (fixes 404 error)
