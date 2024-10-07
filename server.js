@@ -25,10 +25,7 @@ app.use(helmet.contentSecurityPolicy({
 }));
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/realtime_dashboard', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => console.log('Connected to MongoDB'))
+mongoose.connect('mongodb://localhost:27017/realtime_dashboard').then(() => console.log('Connected to MongoDB'))
     .catch((error) => console.log(error));
 
 // Root route (fixes 404 error)
