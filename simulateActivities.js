@@ -29,7 +29,5 @@ function simulateActivity() {
         });
 }
 
-// Simulate activity every 30 seconds
+// Simulate activity every 3 seconds
 setInterval(simulateActivity, 30000);
-
-module.exports = simulateActivity; // Export the function so it can be used in server.js
