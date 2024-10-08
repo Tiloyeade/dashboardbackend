@@ -24,9 +24,23 @@ app.use(helmet.contentSecurityPolicy({
     },
 }));
 
-// Connect to MongoDB
-mongoose.connect('mongodb+srv://tiloye:<Abey11111@>@cluster2.sjib7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster2').then(() => console.log('Connected to MongoDB'))
-    .catch((error) => console.log(error));
+// MongoDB connection settings
+const uri = "mongodb+srv://tiloye:<db_password>@cluster2.sjib7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster2";
+const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
+
+// MongoDB connection function
+async function run() {
+    try {
+        // Connect to MongoDB with Stable API version
+        await mongoose.connect(uri, clientOptions);
+        console.log("Connected to MongoDB!");
+    } catch (error) {
+        console.error("Error connecting to MongoDB:", error);
+    }
+}
+
+// Call the connection function
+run().catch(console.dir);
 
 // Root route (fixes 404 error)
 app.get('/', (req, res) => {
