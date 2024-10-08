@@ -29,5 +29,10 @@ function simulateActivity() {
         });
 }
 
-// Simulate activity every 3 seconds
-setInterval(simulateActivity, 30000);
+// Simulate activity every 30 seconds
+function startSimulation() {
+    setInterval(simulateActivity, 30000);
+}
+
+// Export the startSimulation function
+module.exports = startSimulation;
