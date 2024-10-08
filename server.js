@@ -4,7 +4,8 @@ const cors = require('cors');
 const http = require('http');
 const socketIo = require('socket.io');
 const Activity = require('./models/Activity');
-const helmet = require('helmet'); // Import helmet for security headers
+const helmet = require('helmet');
+const simulateActivities = require('./simulateActivities'); // Import the simulateActivities script
 
 const app = express();
 const server = http.createServer(app);
@@ -13,14 +14,13 @@ const io = socketIo(server, { cors: { origin: '*' } });
 // Middleware
 app.use(express.json());
 app.use(cors());
-app.use(helmet()); // Use helmet for setting security headers
+app.use(helmet());
 
 // Set up Content Security Policy
 app.use(helmet.contentSecurityPolicy({
     directives: {
-        defaultSrc: ["'self'"], // Allow resources only from the same origin
-        scriptSrc: ["'self'", "https://static.cloudflareinsights.com"], // Allow scripts from your origin and Cloudflare
-        // You can add more directives based on your app's needs
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "https://static.cloudflareinsights.com"],
     },
 }));
 
@@ -31,7 +31,6 @@ const clientOptions = { serverApi: { version: '1', strict: true, deprecationErro
 // MongoDB connection function
 async function run() {
     try {
-        // Connect to MongoDB with Stable API version
         await mongoose.connect(uri, clientOptions);
         console.log("Connected to MongoDB!");
     } catch (error) {
@@ -58,16 +57,18 @@ io.on('connection', (socket) => {
 
 // Activity tracking endpoint
 app.post('/api/activity', async (req, res) => {
-    const { userId, activityType, page } = req.body; // Include page
+    const { userId, activityType, page } = req.body;
 
-    const activity = new Activity({ userId, activityType, page }); // Save page
+    const activity = new Activity({ userId, activityType, page });
     await activity.save();
 
-    // Emit the activity to all connected clients
     io.emit('userActivity', activity);
 
     res.status(201).json(activity);
 });
+
+// Start simulating activities when the server starts
+simulateActivities(); // Call simulateActivities to start the simulation
 
 // Start the server
 server.listen(4000, () => {
