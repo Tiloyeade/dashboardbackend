@@ -31,7 +31,7 @@ function simulateActivity() {
 
 // Simulate activity every 30 seconds
 function startSimulation() {
-    setInterval(simulateActivity, 30000);
+    setInterval(simulateActivity, 10000);
 }
 
 // Export the startSimulation function
