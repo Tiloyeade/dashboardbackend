@@ -25,7 +25,7 @@ app.use(helmet.contentSecurityPolicy({
 }));
 
 // MongoDB connection settings
-const uri = "mongodb+srv://tiloye:<db_password>@cluster2.sjib7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster2";
+const uri = "mongodb+srv://tiloye:<Abey11111@>@cluster2.sjib7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster2";
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 
 // MongoDB connection function
